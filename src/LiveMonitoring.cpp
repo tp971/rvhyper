@@ -35,6 +35,7 @@ LiveMonitoring::initSession() {
 
     eventTrie = eventTrie->root();
     needToInstantiate = true;
+    session_ok = true;
 }
 
 bool
@@ -43,6 +44,9 @@ LiveMonitoring::monitorEvent(Event &event) {
         instantiateAutomata(mas);
         needToInstantiate = false;
     }
+    if (!session_ok)
+        return false;
+
     if (FLAG_VERBOSE) {
         std::cout << "Check position " << (eventTrie->depth() + 1)
                   << " (monitor instances left: " << mas.size() << ")"
@@ -52,16 +56,20 @@ LiveMonitoring::monitorEvent(Event &event) {
     event.restrictProperties(mat.aps);
     eventTrie = eventTrie->addValue(session_c, event);
     assert(eventTrie);
-    if (mas.empty())
+    if (mas.empty()) {
+        std::cout << "ok" << std::endl;
         return true;
+    }
 
     forkAutomata(mas, true);
 
-    return monitorstep(mas);
+    return session_ok &= monitorstep(mas);
 }
 
 void
 LiveMonitoring::terminateSession() {
+    if (!session_ok)
+        eventTrie->removeSession(session_c);
     for (auto ma : mas)
         delete ma;
     mas.clear();

@@ -33,18 +33,20 @@ NoLiveMonitoring::monitor(std::vector<Trace *> &traces) {
     instantiateAutomata(mas);
     int position = 0;
 
-    while (!mas.empty()) {
+    bool added = false;
+    do {
         if (FLAG_VERBOSE) {
             position++;
             std::cout << "Check position " << position
                       << " (monitor instances left: " << mas.size() << ")"
                       << std::endl;
         }
-        buildTrieLVL(tries, traces);
+        added = buildTrieLVL(tries, traces);
         forkAutomata(mas, false);
         if (!monitorstep(mas))
             return false;
-    }
+    } while(added);
+
     return true;
 }
 
@@ -83,7 +85,7 @@ NoLiveMonitoring::buildTrieLVL(Trie *&trie, Trace *trace) {
         return false;
     }
     auto &e = trace->currentEvent();
-    std::cout << trace->name() << " Event: " << e << std::endl;
+    std::cerr << trace->name() << " Event: " << e << std::endl;
     e.restrictProperties(mat.aps);
     trie = trie->addValue(trace->getId(), e);
     return true;

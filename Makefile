@@ -4,8 +4,8 @@ NAME     ?= rvhyper
 SRCDIR   ?= src
 
 # Use clang by default.
-CC  = clang
-CXX = clang++
+#CC  = clang
+#CXX = clang++
 
 # Be verbose about the build.
 Q ?= @
@@ -23,7 +23,7 @@ DEP    := $(OBJ:%.o=%.d)
 CXXFLAGS += -Wall -W -Wuninitialized
 
 # Standard compile time flags for C++/CXX projects.
-CXXFLAGS += -std=c++11
+CXXFLAGS += -std=c++14
 CXXFLAGS += -I./include
 
 # SPOT lib

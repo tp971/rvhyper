@@ -165,6 +165,7 @@ Monitoring::monitorstep(std::list<MonitorAutomaton *> &mas) {
         MonitorAutomaton *ma = *mas_it;
         ma->step(mat.aut, mat.trace_vars, mat.ltlaps_set, nTransitions);
         if (ma->rejecting(mat.aut)) {
+            std::cout << "error" << std::endl;
             printCEX(ma);
             delete ma;
             mas_it = mas.erase(mas_it);
@@ -179,6 +180,7 @@ Monitoring::monitorstep(std::list<MonitorAutomaton *> &mas) {
         }
         ++mas_it;
     }
+    std::cout << "ok" << std::endl;
     return true;
 }
 

@@ -34,6 +34,7 @@ class LiveMonitoring : public Monitoring {
     std::list<MonitorAutomaton *> mas;
     bool needToInstantiate;
     unsigned session_c;
+    bool session_ok;
 
   public:
     LiveMonitoring(Formula &f);

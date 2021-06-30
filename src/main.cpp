@@ -348,7 +348,7 @@ main(int argc, char *const argv[]) {
                     row.readLine(line);
                     if (!m.monitorEvent(row.event)) {
                         retVal = 1;
-                        break;
+                        //break;
                     }
                 } else {
                     std::cout << "invalid command/input \"" << line << "\""
